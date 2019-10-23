@@ -1,7 +1,7 @@
 /* *****************************************************************************
- *  Name:
- *  Date:
- *  Description:
+ *  Name: PercolationStats
+ *  Date: 23/10/19
+ *  Description: Stats assocciated with performing independent trials on an n-by-n grid
  **************************************************************************** */
 
 public class PercolationStats {
