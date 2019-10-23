@@ -38,6 +38,10 @@ public class Percolation {
             throw new IllegalArgumentException("Out of bounds");
         }
 
+        if (isOpen(row, col)) {
+            return;
+        }
+
         field[row - 1][col - 1] = true;
         openSites++;
 
@@ -86,6 +90,9 @@ public class Percolation {
 
     // returns the number of open sites
     public int numberOfOpenSites() {
+        if (openSites > N*N) {
+            throw new IllegalStateException("Bad open sites count: " + openSites + " for N=" + N);
+        }
         return openSites;
     }
 
