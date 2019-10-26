@@ -4,8 +4,6 @@
  *  Description: Generalization of a stack and a queue that supports adding and removing items from either the front or the back
  **************************************************************************** */
 
-import edu.princeton.cs.algs4.StdOut;
-
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -96,6 +94,9 @@ public class Deque<Item> implements Iterable<Item> {
         }
         first = first.next;
         size--;
+        if (size == 0) {
+            last = first;
+        }
         return toRemove.value;
     }
 
@@ -110,6 +111,9 @@ public class Deque<Item> implements Iterable<Item> {
         }
         last = last.prev;
         size--;
+        if (size == 0) {
+            first = last;
+        }
         return toRemove.value;
     }
 
@@ -143,6 +147,14 @@ public class Deque<Item> implements Iterable<Item> {
         if (!cond) {
             throw new RuntimeException(msg);
         }
+    }
+
+    private static <I> int iteratorCount(Deque<I> d) {
+        int count = 0;
+        for (I ignored : d) {
+            count++;
+        }
+        return count;
     }
 
     // unit testing (required)
@@ -187,11 +199,19 @@ public class Deque<Item> implements Iterable<Item> {
             }
         }
 
-        int count = 0;
-        for (Integer i : d) {
-            StdOut.println(i);
-            count++;
-        }
+        int count = iteratorCount(d);
         assertTrue(count == n, "Iterate over all elements");
+
+        Deque<Integer> deque = new Deque<Integer>();
+        assertTrue(0 == iteratorCount(deque), "");
+        deque.addFirst(1);
+        assertTrue(1 == iteratorCount(deque), "");
+        deque.addLast(2);
+        assertTrue(2 == iteratorCount(deque), "");
+        assertTrue(2 == deque.removeLast(), "Intermixed remove 1");
+        assertTrue(1 == iteratorCount(deque), "");
+        assertTrue(1 == deque.removeLast(), "Intermixed remove 2");
+        assertTrue(0 == iteratorCount(deque), "");
+        assertTrue(deque.isEmpty(), "Intermixed is empty");
     }
 }
