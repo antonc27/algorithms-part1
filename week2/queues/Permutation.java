@@ -6,8 +6,24 @@
  *      Print each item from the sequence at most once.
  **************************************************************************** */
 
+import edu.princeton.cs.algs4.StdIn;
+import edu.princeton.cs.algs4.StdOut;
+
 public class Permutation {
     public static void main(String[] args) {
-        Deque<String> d = new Deque<>();
+        RandomizedQueue<String> rq = new RandomizedQueue<>();
+
+        int k = Integer.parseInt(args[0]);
+
+        while (StdIn.hasNextLine()) {
+            String input = StdIn.readLine();
+            for (String token : input.split(" ")) {
+                rq.enqueue(token);
+            }
+        }
+
+        for (int i = 0; i < k; i++) {
+            StdOut.println(rq.dequeue());
+        }
     }
 }
