@@ -45,7 +45,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         }
 
         if (size == items.length) {
-            increaseCapacity(2 * items.length);
+            resize(2 * items.length);
         }
 
         items[size] = item;
@@ -67,6 +67,9 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         holes++;
         if (holes > size / 2) {
             compact();
+        }
+        if (size < items.length / 4) {
+            resize(items.length / 4);
         }
         return toDequeue;
     }
@@ -128,7 +131,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         }
     }
 
-    private void increaseCapacity(int capacity) {
+    private void resize(int capacity) {
         Item[] newItems = (Item[]) new Object[capacity];
         fixHoles(items, newItems);
         items = newItems;
