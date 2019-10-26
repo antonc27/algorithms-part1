@@ -15,8 +15,8 @@ public class Permutation {
 
         int k = Integer.parseInt(args[0]);
 
-        while (StdIn.hasNextLine()) {
-            String input = StdIn.readLine();
+        while (!StdIn.isEmpty()) {
+            String input = StdIn.readString();
             for (String token : input.split(" ")) {
                 rq.enqueue(token);
             }
