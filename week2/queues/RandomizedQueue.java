@@ -90,25 +90,35 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     private class RandomizedQueueIterator implements Iterator<Item> {
-        private int i = 0;
+        private int i;
+        private int fixedSize;
+
+        private int[] order;
 
         public RandomizedQueueIterator() {
             if (holes > 0) {
                 compact();
             }
 
-            StdRandom.shuffle(items, 0, size);
+            i = 0;
+            fixedSize = size;
+            order = new int[fixedSize];
+
+            for (int j = 0; j < fixedSize; j++) {
+                order[j] = j;
+            }
+            StdRandom.shuffle(order);
         }
 
         public boolean hasNext() {
-            return i < size;
+            return i < fixedSize;
         }
 
         public Item next() {
             if (!hasNext()) {
                 throw new NoSuchElementException("No more elements to iterate");
             }
-            Item item = items[i];
+            Item item = items[order[i]];
             i++;
             return item;
         }
