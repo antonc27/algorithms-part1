@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c1e4f978-b3bd-4ae1-84e9-9e1170bce808" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/BruteCollinearPoints.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../week2/queues/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../week2/queues/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Point.java" beforeDir="false" afterPath="$PROJECT_DIR$/Point.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -28,6 +27,11 @@
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="true" />
   </component>
   <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
     <option name="SCHEME" value="Project" />
   </component>
   <component name="FindBugs-IDEA-Workspace">
@@ -60,7 +64,14 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.BruteCollinearPoints">
+    <configuration name="BruteCollinearPoints" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="BruteCollinearPoints" />
+      <module name="Algorithms, Part I" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Point" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Point" />
       <module name="Algorithms, Part I" />
@@ -70,6 +81,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.BruteCollinearPoints" />
         <item itemvalue="Application.Point" />
       </list>
     </recent_temporary>
