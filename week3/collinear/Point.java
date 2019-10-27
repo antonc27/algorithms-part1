@@ -8,8 +8,9 @@
  *
  ******************************************************************************/
 
-import java.util.Comparator;
 import edu.princeton.cs.algs4.StdDraw;
+
+import java.util.Comparator;
 
 public class Point implements Comparable<Point> {
 
@@ -59,7 +60,15 @@ public class Point implements Comparable<Point> {
      * @return the slope between this point and the specified point
      */
     public double slopeTo(Point that) {
-        /* YOUR CODE HERE */
+        if (that.x == x) {
+            if (that.y == y) {
+                return Double.NEGATIVE_INFINITY;
+            } else {
+                return Double.POSITIVE_INFINITY;
+            }
+        }
+
+        return (double) (that.y - y) / (that.x - x);
     }
 
     /**
@@ -75,7 +84,13 @@ public class Point implements Comparable<Point> {
      *         argument point
      */
     public int compareTo(Point that) {
-        /* YOUR CODE HERE */
+        if (y == that.y && x == that.x) {
+            return 0;
+        } else if (y < that.y || (y == that.y && x < that.x)) {
+            return -1;
+        } else {
+            return 1;
+        }
     }
 
     /**
@@ -86,6 +101,7 @@ public class Point implements Comparable<Point> {
      */
     public Comparator<Point> slopeOrder() {
         /* YOUR CODE HERE */
+        return null;
     }
 
 
@@ -101,10 +117,41 @@ public class Point implements Comparable<Point> {
         return "(" + x + ", " + y + ")";
     }
 
+    private static void assertTrue(boolean cond, String msg) {
+        if (!cond) {
+            throw new RuntimeException(msg);
+        }
+    }
+
     /**
      * Unit tests the Point data type.
      */
     public static void main(String[] args) {
-        /* YOUR CODE HERE */
+        // slopeTo() tests
+        Point p11 = new Point(1, 1);
+        Point p22 = new Point(2, 2);
+        assertTrue(+1.0 == p11.slopeTo(p22), "Slope +1.0");
+
+        Point p00 = new Point(0, 0);
+        Point p21 = new Point(2, 1);
+        assertTrue(Math.abs(+0.5 - p00.slopeTo(p21)) < 0.0000001, "Slope +0.5");
+
+        Point p111 = new Point(11, 1);
+        assertTrue(+0.0 == p11.slopeTo(p111), "Slope +0.0");
+
+        Point p222 = new Point(2, 22);
+        assertTrue(Double.POSITIVE_INFINITY == p22.slopeTo(p222), "Slope +Inf 1");
+        assertTrue(Double.POSITIVE_INFINITY == p222.slopeTo(p22), "Slope +Inf 2");
+
+        assertTrue(Double.NEGATIVE_INFINITY == p00.slopeTo(p00), "Slope -Inf");
+
+        // compareTo() tests
+        assertTrue(p11.compareTo(p22) < 0, "p11 less than p22");
+        assertTrue(p22.compareTo(p11) > 0, "p22 greater than p11");
+
+        assertTrue(p11.compareTo(p111) < 0, "resolves ties on x");
+
+        Point p11Duplicate = new Point(1, 1);
+        assertTrue(p11Duplicate.compareTo(p11) == 0, "equal point");
     }
 }
