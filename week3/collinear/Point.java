@@ -68,6 +68,10 @@ public class Point implements Comparable<Point> {
             }
         }
 
+        if (that.y == y) {
+            return +0.0;
+        }
+
         return (double) (that.y - y) / (that.x - x);
     }
 
@@ -144,6 +148,10 @@ public class Point implements Comparable<Point> {
         assertTrue(Double.POSITIVE_INFINITY == p222.slopeTo(p22), "Slope +Inf 2");
 
         assertTrue(Double.NEGATIVE_INFINITY == p00.slopeTo(p00), "Slope -Inf");
+
+        Point p = new Point(29277, 1328);
+        Point q = new Point(13884, 1328);
+        assertTrue(Double.valueOf(+0.0).equals(p.slopeTo(q)), "Slope +0.0 2");
 
         // compareTo() tests
         assertTrue(p11.compareTo(p22) < 0, "p11 less than p22");

@@ -15,11 +15,14 @@ public class BruteCollinearPoints {
     // finds all line segments containing 4 points
     public BruteCollinearPoints(Point[] points) {
         if (points == null) throw new IllegalArgumentException("Null points");
-
         int n = points.length;
+
+        for (int i = 0; i < n; i++) {
+            if (points[i] == null) throw new IllegalArgumentException("Null point inside points");
+        }
+
         for (int i = 0; i < n; i++) {
             Point pI = points[i];
-            if (pI == null) throw new IllegalArgumentException("Null point inside points");
             for (int j = 0; j < n; j++) {
                 if (i == j) continue;
                 Point pJ = points[j];
@@ -56,7 +59,7 @@ public class BruteCollinearPoints {
 
     // the line segments
     public LineSegment[] segments() {
-        return segments;
+        return segments.clone();
     }
 
     private void changeCapacity(int capacity) {
