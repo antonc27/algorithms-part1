@@ -24,7 +24,6 @@ public class FastCollinearPoints {
         }
 
         Point[] sorted = points.clone();
-        Point[] found = new Point[4];
 
         for (int i = 0; i < n; i++) {
             Point pI = points[i];
@@ -36,24 +35,46 @@ public class FastCollinearPoints {
                 double currSlope = pI.slopeTo(sorted[j]);
                 if (currSlope == slope) {
                     sameSlopeCount++;
-                    if (sameSlopeCount == 2) {
-                        found[0] = pI;
-                        for (int k = j - sameSlopeCount; k <= j; k++) {
-                            found[k - (j - sameSlopeCount) + 1] = sorted[k];
-                        }
-                        sameSlopeCount = 0;
-                        Arrays.sort(found, 0, 4);
-
-                        addSegment(found[0], found[3]);
-                    }
                 } else {
+                    if (sameSlopeCount >= 2) {
+                        addSegmentDeduplicated(pI, sorted, j - sameSlopeCount - 1, j);
+                    }
+
                     slope = currSlope;
                     sameSlopeCount = 0;
                 }
             }
+
+            // need to check last sameSlopeCount
+            if (sameSlopeCount >= 2) {
+                addSegmentDeduplicated(pI, sorted, n - sameSlopeCount - 1, n);
+            }
         }
 
         changeCapacity(segmentsCount);
+    }
+
+    private void addSegmentDeduplicated(Point origin, Point[] sorted, int start, int end) {
+        Point min = null;
+        Point max = null;
+
+        for (int k = start; k < end; k++) {
+            Point p = sorted[k];
+            if (min == null) {
+                min = p;
+                max = p;
+                continue;
+            }
+            if (p.compareTo(min) < 0) min = p;
+            if (p.compareTo(max) > 0) max = p;
+        }
+
+        if (min == null) throw new RuntimeException("Incorrect same slope count");
+
+        // we're adding segment only if origin of slope sorting is a minimal point in the natural order
+        if (min.compareTo(origin) >= 0) {
+            addSegment(origin, max);
+        }
     }
 
     private void addSegment(Point p, Point q) {
