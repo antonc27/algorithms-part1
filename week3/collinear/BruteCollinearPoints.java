@@ -36,7 +36,7 @@ public class BruteCollinearPoints {
                         Point pL = points[l];
                         if (pJ.slopeTo(pK) == pK.slopeTo(pL)) {
                             if (pI.compareTo(pJ) < 0 && pJ.compareTo(pK) < 0 && pK.compareTo(pL) < 0) {
-                                addSegment(pI, pJ);
+                                addSegment(pI, pL);
                             }
                         }
                     }
