@@ -21,6 +21,11 @@ public class FastCollinearPoints {
 
         for (int i = 0; i < n; i++) {
             if (points[i] == null) throw new IllegalArgumentException("Null point inside points");
+
+            for (int j = i + 1; j < n; j++) {
+                if (points[j] == null) throw new IllegalArgumentException("Null point inside points");
+                if (points[i].compareTo(points[j]) == 0) throw new IllegalArgumentException("Duplicate(s) in points");
+            }
         }
 
         Point[] sorted = points.clone();
