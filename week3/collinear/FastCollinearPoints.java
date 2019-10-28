@@ -38,18 +38,13 @@ public class FastCollinearPoints {
                     sameSlopeCount++;
                     if (sameSlopeCount == 2) {
                         found[0] = pI;
-                        for (int k = j-2; k <= j; k++) {
-                            found[k - (j - 2) + 1] = sorted[k];
+                        for (int k = j - sameSlopeCount; k <= j; k++) {
+                            found[k - (j - sameSlopeCount) + 1] = sorted[k];
                         }
                         sameSlopeCount = 0;
                         Arrays.sort(found, 0, 4);
 
-                        LineSegment ls = new LineSegment(found[0], found[3]);
-                        if (segmentsCount == segments.length) {
-                            changeCapacity(2 * segments.length);
-                        }
-                        segmentsCount++;
-                        segments[segmentsCount - 1] = ls;
+                        addSegment(found[0], found[3]);
                     }
                 } else {
                     slope = currSlope;
@@ -59,6 +54,15 @@ public class FastCollinearPoints {
         }
 
         changeCapacity(segmentsCount);
+    }
+
+    private void addSegment(Point p, Point q) {
+        LineSegment ls = new LineSegment(p, q);
+        if (segmentsCount == segments.length) {
+            changeCapacity(2 * segments.length);
+        }
+        segmentsCount++;
+        segments[segmentsCount - 1] = ls;
     }
 
     // the number of line segments

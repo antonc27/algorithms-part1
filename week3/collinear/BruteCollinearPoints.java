@@ -36,12 +36,7 @@ public class BruteCollinearPoints {
                         Point pL = points[l];
                         if (pJ.slopeTo(pK) == pK.slopeTo(pL)) {
                             if (pI.compareTo(pJ) < 0 && pJ.compareTo(pK) < 0 && pK.compareTo(pL) < 0) {
-                                LineSegment ls = new LineSegment(pI, pL);
-                                if (segmentsCount == segments.length) {
-                                    changeCapacity(2 * segments.length);
-                                }
-                                segmentsCount++;
-                                segments[segmentsCount - 1] = ls;
+                                addSegment(pI, pJ);
                             }
                         }
                     }
@@ -50,6 +45,15 @@ public class BruteCollinearPoints {
         }
 
         changeCapacity(segmentsCount);
+    }
+
+    private void addSegment(Point p, Point q) {
+        LineSegment ls = new LineSegment(p, q);
+        if (segmentsCount == segments.length) {
+            changeCapacity(2 * segments.length);
+        }
+        segmentsCount++;
+        segments[segmentsCount - 1] = ls;
     }
 
     // the number of line segments
