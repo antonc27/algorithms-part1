@@ -24,6 +24,9 @@ public class Board {
     private final int blankRow;
     private final int blankCol;
 
+    private final int twinPair1;
+    private final int twinPair2;
+
     // create a board from an n-by-n array of tiles,
     // where tiles[row][col] = tile at (row, col)
     public Board(int[][] tiles) {
@@ -57,6 +60,21 @@ public class Board {
 
         blankCol = blankColTmp;
         blankRow = blankRowTmp;
+
+        int blank = targetTile(blankRow, blankCol);
+
+        int p1 = -1;
+        while (p1 == -1 || p1 == blank) {
+            p1 = StdRandom.uniform(n * n) + 1;
+        }
+
+        int p2 = -1;
+        while (p2 == -1 || p2 == blank || p2 == p1) {
+            p2 = StdRandom.uniform(n * n) + 1;
+        }
+
+        twinPair1 = p1;
+        twinPair2 = p2;
     }
 
     // string representation of this board
@@ -162,21 +180,8 @@ public class Board {
 
     // a board that is obtained by exchanging any pair of tiles
     public Board twin() {
-        int blanck = targetTile(blankRow, blankCol);
-
-        int p1 = -1;
-        while (p1 == -1 || p1 == blanck) {
-            p1 = StdRandom.uniform(n * n) + 1;
-        }
-
-        int p2 = -1;
-        while (p2 == -1 || p2 == blanck || p2 == p1) {
-            p2 = StdRandom.uniform(n * n) + 1;
-        }
-
         int[][] newTiles = deepCopy(tiles);
-        swap(newTiles, getTargetRow(p1), getTargetCol(p1), getTargetRow(p2), getTargetCol(p2));
-
+        swap(newTiles, getTargetRow(twinPair1), getTargetCol(twinPair1), getTargetRow(twinPair2), getTargetCol(twinPair2));
         return new Board(newTiles);
     }
 
@@ -268,6 +273,7 @@ public class Board {
         assertTrue(!twin.equals(board), "Twin non equality");
         assertTrue(twin.blankCol == board.blankCol, "Twin blank col");
         assertTrue(twin.blankRow == board.blankRow, "Twin blank row");
+        assertTrue(twin.equals(board.twin()), "Twin immutability");
 
         String[] testBoards = new String[] {
                 "puzzle04.txt", "puzzle00.txt", "puzzle06.txt", "puzzle09.txt", "puzzle23.txt", "puzzle2x2-unsolvable1.txt"
@@ -279,6 +285,7 @@ public class Board {
             assertTrue(!atwin.equals(loaded), boardFile + ": Twin non equality");
             assertTrue(atwin.blankCol == loaded.blankCol, boardFile + ": Twin blank col");
             assertTrue(atwin.blankRow == loaded.blankRow, boardFile + ": Twin blank row");
+            assertTrue(atwin.equals(loaded.twin()), boardFile + ": Twin immutability");
         }
     }
 
