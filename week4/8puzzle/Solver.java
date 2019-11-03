@@ -13,6 +13,9 @@ import java.util.Comparator;
 
 public class Solver {
 
+    private static final Comparator<SearchNode> PRIORITY_COMPARATOR = (o1, o2) ->
+            Comparator.<Integer>naturalOrder().compare(o1.priority(), o2.priority());
+
     private class SearchNode {
         private final SearchNode parent;
         private final Board board;
@@ -37,53 +40,50 @@ public class Solver {
             throw new IllegalArgumentException("Null initial board");
         }
 
-        Comparator<Integer> natural = Comparator.naturalOrder();
-        Comparator<SearchNode> priority = (o1, o2) -> natural.compare(o1.priority(), o2.priority());
-
-        MinPQ<SearchNode> queue = new MinPQ<>(priority);
-        MinPQ<SearchNode> twinQueue = new MinPQ<>(priority);
-
-        SearchNode root = new SearchNode(null, initial, 0);
-        queue.insert(root);
-
-        SearchNode twinRoot = new SearchNode(null, initial.twin(), 0);
-        twinQueue.insert(twinRoot);
+        MinPQ<SearchNode> queue = initQueue(initial);
+        MinPQ<SearchNode> twinQueue = initQueue(initial.twin());
 
         while (!queue.isEmpty()) {
-
-            SearchNode minNode = queue.delMin();
-            Board board = minNode.board;
-
-            if (board.isGoal()) {
+            SearchNode minNode = queue.min();
+            if (makeSearchStep(queue)) {
                 goalNode = minNode;
                 break;
             }
 
-            Board parent = (minNode.parent == null) ? null : minNode.parent.board;
-            for (Board next : board.neighbors()) {
-                // critical optimisation
-                if (!next.equals(parent)) {
-                    SearchNode nextNode = new SearchNode(minNode, next, minNode.moves + 1);
-                    queue.insert(nextNode);
-                }
-            }
-
-            SearchNode twinMinNode = twinQueue.delMin();
-            Board twinBoard = twinMinNode.board;
-
-            if (twinBoard.isGoal()) {
+            if (makeSearchStep(twinQueue)) {
                 goalNode = null;
                 break;
             }
+        }
+    }
 
-            Board twinParent = (twinMinNode.parent == null) ? null : twinMinNode.parent.board;
-            for (Board twinNext : twinBoard.neighbors()) {
-                if (!twinNext.equals(twinParent)) {
-                    SearchNode twinNextNode = new SearchNode(twinMinNode, twinNext, twinMinNode.moves + 1);
-                    twinQueue.insert(twinNextNode);
-                }
+    private boolean makeSearchStep(MinPQ<SearchNode> queue) {
+        SearchNode minNode = queue.delMin();
+        Board board = minNode.board;
+
+        if (board.isGoal()) {
+            return true;
+        }
+
+        Board parent = (minNode.parent == null) ? null : minNode.parent.board;
+        for (Board next : board.neighbors()) {
+            // critical optimisation
+            if (!next.equals(parent)) {
+                SearchNode nextNode = new SearchNode(minNode, next, minNode.moves + 1);
+                queue.insert(nextNode);
             }
         }
+
+        return false;
+    }
+
+    private MinPQ<SearchNode> initQueue(Board start) {
+        MinPQ<SearchNode> queue = new MinPQ<>(Solver.PRIORITY_COMPARATOR);
+
+        SearchNode root = new SearchNode(null, start, 0);
+        queue.insert(root);
+
+        return queue;
     }
 
     // is the initial board solvable? (see below)
