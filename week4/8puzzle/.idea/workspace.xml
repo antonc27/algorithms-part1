@@ -5,7 +5,7 @@
       <change beforePath="$PROJECT_DIR$/../../week2/queues/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../week2/queues/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../week3/collinear/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../week3/collinear/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Solver.java" beforeDir="false" afterPath="$PROJECT_DIR$/Solver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/Board.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -50,6 +50,7 @@
   <component name="PropertiesComponent">
     <property name="ToolWindowMessages.ShowToolbar" value="false" />
     <property name="ToolWindowRun.ShowToolbar" value="false" />
+    <property name="extract.method.default.visibility" value="private" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="settings.saveactions" />
   </component>
@@ -65,7 +66,14 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.Board">
+    <configuration name="Board" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Board" />
+      <module name="Algorithms, Part I" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="PuzzleChecker" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="PuzzleChecker" />
       <module name="Algorithms, Part I" />
@@ -74,8 +82,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Application.PuzzleChecker" />
+      <item itemvalue="Application.Board" />
+    </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Board" />
         <item itemvalue="Application.PuzzleChecker" />
       </list>
     </recent_temporary>
