@@ -5,6 +5,7 @@
  **************************************************************************** */
 
 import edu.princeton.cs.algs4.Stack;
+import edu.princeton.cs.algs4.StdRandom;
 
 import java.util.Arrays;
 
@@ -159,7 +160,22 @@ public class Board {
 
     // a board that is obtained by exchanging any pair of tiles
     public Board twin() {
-        return null;
+        int blanck = targetTile(blankRow, blankCol);
+
+        int p1 = -1;
+        while (p1 == -1 || p1 == blanck) {
+            p1 = StdRandom.uniform(n) + 1;
+        }
+
+        int p2 = -1;
+        while (p2 == -1 || p2 == blanck || p2 == p1) {
+            p2 = StdRandom.uniform(n) + 1;
+        }
+
+        int[][] newTiles = deepCopy(tiles);
+        swap(newTiles, getTargetRow(p1), getTargetCol(p1), getTargetRow(p2), getTargetCol(p2));
+
+        return new Board(newTiles);
     }
 
     private static void assertTrue(boolean cond, String msg) {
@@ -233,6 +249,11 @@ public class Board {
         }
         assertTrue(neighborsCount == 3, "Neighbors count");
         assertTrue(hasExpectedNeighbor, "Neighbor inside neighbors");
+
+        Board twin = board.twin();
+        assertTrue(!twin.equals(board), "Twin non equality");
+        assertTrue(twin.blankCol == board.blankCol, "Twin blank col");
+        assertTrue(twin.blankRow == board.blankRow, "Twin blank row");
     }
 
 }
