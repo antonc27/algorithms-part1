@@ -2,12 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c1e4f978-b3bd-4ae1-84e9-9e1170bce808" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/Board.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Solver.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../week2/queues/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../week2/queues/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../week3/collinear/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../week3/collinear/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Solver.java" beforeDir="false" afterPath="$PROJECT_DIR$/Solver.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
