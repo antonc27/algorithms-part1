@@ -38,10 +38,16 @@ public class Solver {
         }
 
         Comparator<Integer> natural = Comparator.naturalOrder();
-        MinPQ<SearchNode> queue = new MinPQ<>((o1, o2) -> natural.compare(o1.priority(), o2.priority()));
+        Comparator<SearchNode> priority = (o1, o2) -> natural.compare(o1.priority(), o2.priority());
+
+        MinPQ<SearchNode> queue = new MinPQ<>(priority);
+        MinPQ<SearchNode> twinQueue = new MinPQ<>(priority);
 
         SearchNode root = new SearchNode(null, initial, 0);
         queue.insert(root);
+
+        SearchNode twinRoot = new SearchNode(null, initial.twin(), 0);
+        twinQueue.insert(twinRoot);
 
         while (!queue.isEmpty()) {
 
@@ -51,14 +57,30 @@ public class Solver {
             if (board.isGoal()) {
                 goalNode = minNode;
                 break;
-            } else {
-                Board parent = (minNode.parent == null) ? null : minNode.parent.board;
-                for (Board next : board.neighbors()) {
-                    // critical optimisation
-                    if (!next.equals(parent)) {
-                        SearchNode nextNode = new SearchNode(minNode, next, minNode.moves + 1);
-                        queue.insert(nextNode);
-                    }
+            }
+
+            Board parent = (minNode.parent == null) ? null : minNode.parent.board;
+            for (Board next : board.neighbors()) {
+                // critical optimisation
+                if (!next.equals(parent)) {
+                    SearchNode nextNode = new SearchNode(minNode, next, minNode.moves + 1);
+                    queue.insert(nextNode);
+                }
+            }
+
+            SearchNode twinMinNode = twinQueue.delMin();
+            Board twinBoard = twinMinNode.board;
+
+            if (twinBoard.isGoal()) {
+                goalNode = null;
+                break;
+            }
+
+            Board twinParent = (twinMinNode.parent == null) ? null : twinMinNode.parent.board;
+            for (Board twinNext : twinBoard.neighbors()) {
+                if (!twinNext.equals(twinParent)) {
+                    SearchNode twinNextNode = new SearchNode(twinMinNode, twinNext, twinMinNode.moves + 1);
+                    twinQueue.insert(twinNextNode);
                 }
             }
         }
@@ -71,11 +93,17 @@ public class Solver {
 
     // min number of moves to solve initial board
     public int moves() {
-        return goalNode.moves;
+        if (isSolvable()) {
+            return goalNode.moves;
+        } else {
+            return -1;
+        }
     }
 
     // sequence of boards in a shortest solution
     public Iterable<Board> solution() {
+        if (!isSolvable()) return null;
+
         Stack<Board> boards = new Stack<>();
         SearchNode current = goalNode;
         while (current != null) {
