@@ -4,7 +4,9 @@
  *  Description: Models an n-by-n board with sliding tiles
  **************************************************************************** */
 
+import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.Stack;
+import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdRandom;
 
 import java.util.Arrays;
@@ -164,12 +166,12 @@ public class Board {
 
         int p1 = -1;
         while (p1 == -1 || p1 == blanck) {
-            p1 = StdRandom.uniform(n) + 1;
+            p1 = StdRandom.uniform(n * n) + 1;
         }
 
         int p2 = -1;
         while (p2 == -1 || p2 == blanck || p2 == p1) {
-            p2 = StdRandom.uniform(n) + 1;
+            p2 = StdRandom.uniform(n * n) + 1;
         }
 
         int[][] newTiles = deepCopy(tiles);
@@ -182,6 +184,18 @@ public class Board {
         if (!cond) {
             throw new RuntimeException(msg);
         }
+    }
+
+    private static Board loadBoard(String filename) {
+        In in = new In(filename);
+        int n = in.readInt();
+        int[][] tiles = new int[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                tiles[i][j] = in.readInt();
+            }
+        }
+        return new Board(tiles);
     }
 
     // unit testing (not graded)
@@ -254,6 +268,18 @@ public class Board {
         assertTrue(!twin.equals(board), "Twin non equality");
         assertTrue(twin.blankCol == board.blankCol, "Twin blank col");
         assertTrue(twin.blankRow == board.blankRow, "Twin blank row");
+
+        String[] testBoards = new String[] {
+                "puzzle04.txt", "puzzle00.txt", "puzzle06.txt", "puzzle09.txt", "puzzle23.txt", "puzzle2x2-unsolvable1.txt"
+        };
+        for (String boardFile : testBoards) {
+            StdOut.println("Testing twin for " + boardFile);
+            Board loaded = loadBoard(boardFile);
+            Board atwin = loaded.twin();
+            assertTrue(!atwin.equals(loaded), boardFile + ": Twin non equality");
+            assertTrue(atwin.blankCol == loaded.blankCol, boardFile + ": Twin blank col");
+            assertTrue(atwin.blankRow == loaded.blankRow, boardFile + ": Twin blank row");
+        }
     }
 
 }
