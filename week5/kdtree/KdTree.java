@@ -8,7 +8,8 @@ import edu.princeton.cs.algs4.Point2D;
 import edu.princeton.cs.algs4.RectHV;
 import edu.princeton.cs.algs4.StdDraw;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 public class KdTree {
 
@@ -202,7 +203,22 @@ public class KdTree {
     public Iterable<Point2D> range(RectHV rect) {
         if (rect == null) throw new IllegalArgumentException("Range: Null argument");
 
-        return new ArrayList<>();
+        List<Point2D> found = new LinkedList<>();
+        rangeRec(root, rect, found);
+        return found;
+    }
+
+    private void rangeRec(Node current, RectHV rect, List<Point2D> found) {
+        if (current == null) return;
+
+        if (rect.intersects(current.rect)) {
+            if (rect.contains(current.point)) {
+                found.add(current.point);
+            }
+
+            rangeRec(current.left, rect, found);
+            rangeRec(current.right, rect, found);
+        }
     }
 
     // a nearest neighbor in the set to point p; null if the set is empty
@@ -216,6 +232,14 @@ public class KdTree {
         if (!cond) {
             throw new RuntimeException(msg);
         }
+    }
+
+    private static int count(Iterable<Point2D> iter) {
+        int count = 0;
+        for (Point2D ignored : iter) {
+            count++;
+        }
+        return count;
     }
 
     // unit testing of the methods (optional)
@@ -238,5 +262,11 @@ public class KdTree {
 
         assertTrue(set.size() == 2, "size after an another insert");
         assertTrue(set.contains(p1), "contains after an another insert");
+
+        RectHV inside = new RectHV(0.2, 0.2, 0.8, 0.8);
+        assertTrue(count(set.range(inside)) == 0, "inside rect");
+
+        RectHV outside = new RectHV(-1.0, -1.0, 2.0, 2.0);
+        assertTrue(count(set.range(outside)) == 2, "outside rect");
     }
 }
