@@ -55,6 +55,8 @@ public class KdTree {
 
     // add the point to the set (if it is not already in the set)
     public void insert(Point2D p) {
+        if (p == null) throw new IllegalArgumentException("Insert: Null argument");
+
         if (contains(p)) return;
 
         if (root == null) {
@@ -131,6 +133,8 @@ public class KdTree {
 
     // does the set contain point p?
     public boolean contains(Point2D p) {
+        if (p == null) throw new IllegalArgumentException("Contains: Null argument");
+
         return findRec(root, p) != null;
     }
 
@@ -196,11 +200,15 @@ public class KdTree {
 
     // all points that are inside the rectangle (or on the boundary)
     public Iterable<Point2D> range(RectHV rect) {
+        if (rect == null) throw new IllegalArgumentException("Range: Null argument");
+
         return new ArrayList<>();
     }
 
     // a nearest neighbor in the set to point p; null if the set is empty
     public Point2D nearest(Point2D p) {
+        if (p == null) throw new IllegalArgumentException("Nearest: Null argument");
+
         return new Point2D(0, 0);
     }
 
