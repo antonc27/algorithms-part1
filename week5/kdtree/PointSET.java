@@ -109,6 +109,9 @@ public class PointSET {
         Point2D p1 = new Point2D(1, 1);
         set.insert(p1);
 
+        assertTrue(set.size() == 2, "size after an another insert");
+        assertTrue(set.contains(p1), "contains after an another insert");
+
         RectHV inside = new RectHV(0.2, 0.2, 0.8, 0.8);
         assertTrue(count(set.range(inside)) == 0, "inside rect");
 
