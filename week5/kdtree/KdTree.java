@@ -225,7 +225,35 @@ public class KdTree {
     public Point2D nearest(Point2D p) {
         if (p == null) throw new IllegalArgumentException("Nearest: Null argument");
 
-        return new Point2D(0, 0);
+        if (isEmpty()) return null;
+
+        return nearestRec(root, p, root.point);
+    }
+
+    private Point2D nearestRec(Node current, Point2D p, Point2D minP) {
+        if (current == null) return minP;
+
+        Point2D closest = minP;
+        double minDist = p.distanceSquaredTo(closest);
+
+        double toCurrent = p.distanceSquaredTo(current.point);
+        if (toCurrent < minDist) {
+            closest = current.point;
+            minDist = toCurrent;
+        }
+
+        double toLeft = (current.left == null) ? Double.POSITIVE_INFINITY : current.left.rect.distanceSquaredTo(p);
+        if (toLeft < minDist) {
+            closest = nearestRec(current.left, p, closest);
+            minDist = p.distanceSquaredTo(closest);
+        }
+
+        double toRight = (current.right == null) ? Double.POSITIVE_INFINITY : current.right.rect.distanceSquaredTo(p);
+        if (toRight < minDist) {
+            closest = nearestRec(current.right, p, closest);
+        }
+
+        return closest;
     }
 
     private static void assertTrue(boolean cond, String msg) {
@@ -268,5 +296,11 @@ public class KdTree {
 
         RectHV outside = new RectHV(-1.0, -1.0, 2.0, 2.0);
         assertTrue(count(set.range(outside)) == 2, "outside rect");
+
+        Point2D p2 = new Point2D(0.3, 0.3);
+        assertTrue(set.nearest(p2).equals(p), "nearest is (0, 0)");
+
+        Point2D p3 = new Point2D(0.8, 0.8);
+        assertTrue(set.nearest(p3).equals(p1), "nearest is (1, 1)");
     }
 }
