@@ -13,7 +13,7 @@ import java.util.TreeSet;
 
 public class PointSET {
 
-    private TreeSet<Point2D> bst;
+    private final TreeSet<Point2D> bst;
 
     // construct an empty set of points
     public PointSET() {
@@ -32,11 +32,13 @@ public class PointSET {
 
     // add the point to the set (if it is not already in the set)
     public void insert(Point2D p) {
+        if (p == null) throw new IllegalArgumentException("Insert: Null argument");
         bst.add(p);
     }
 
     // does the set contain point p?
     public boolean contains(Point2D p) {
+        if (p == null) throw new IllegalArgumentException("Contains: Null argument");
         return bst.contains(p);
     }
 
@@ -49,6 +51,7 @@ public class PointSET {
 
     // all points that are inside the rectangle (or on the boundary)
     public Iterable<Point2D> range(RectHV rect) {
+        if (rect == null) throw new IllegalArgumentException("Range: Null argument");
         List<Point2D> list = new LinkedList<>();
         for (Point2D p : bst) {
             if (rect.contains(p)) {
@@ -60,11 +63,12 @@ public class PointSET {
 
     // a nearest neighbor in the set to point p; null if the set is empty
     public Point2D nearest(Point2D p) {
+        if (p == null) throw new IllegalArgumentException("Nearest: Null argument");
         if (isEmpty()) return null;
-        double minDist = Double.MAX_VALUE;
+        double minDist = Double.POSITIVE_INFINITY;
         Point2D nearest = null;
         for (Point2D other : bst) {
-            double dist = p.distanceTo(other);
+            double dist = p.distanceSquaredTo(other);
             if (dist < minDist) {
                 minDist = dist;
                 nearest = other;
