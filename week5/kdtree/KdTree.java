@@ -237,20 +237,31 @@ public class KdTree {
         double minDist = p.distanceSquaredTo(closest);
 
         double toCurrent = p.distanceSquaredTo(current.point);
+        double toLeft = (current.left == null) ? Double.POSITIVE_INFINITY : current.left.rect.distanceSquaredTo(p);
+        double toRight = (current.right == null) ? Double.POSITIVE_INFINITY : current.right.rect.distanceSquaredTo(p);
+
         if (toCurrent < minDist) {
             closest = current.point;
             minDist = toCurrent;
         }
 
-        double toLeft = (current.left == null) ? Double.POSITIVE_INFINITY : current.left.rect.distanceSquaredTo(p);
-        if (toLeft < minDist) {
-            closest = nearestRec(current.left, p, closest);
-            minDist = p.distanceSquaredTo(closest);
-        }
+        if (toLeft < toRight) {
+            if (toLeft < minDist) {
+                closest = nearestRec(current.left, p, closest);
+                minDist = p.distanceSquaredTo(closest);
+            }
+            if (toRight < minDist) {
+                closest = nearestRec(current.right, p, closest);
+            }
+        } else {
+            if (toRight < minDist) {
+                closest = nearestRec(current.right, p, closest);
+                minDist = p.distanceSquaredTo(closest);
+            }
+            if (toLeft < minDist) {
+                closest = nearestRec(current.left, p, closest);
 
-        double toRight = (current.right == null) ? Double.POSITIVE_INFINITY : current.right.rect.distanceSquaredTo(p);
-        if (toRight < minDist) {
-            closest = nearestRec(current.right, p, closest);
+            }
         }
 
         return closest;
